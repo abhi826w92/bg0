@@ -213,11 +213,11 @@ export function captureResultDownloaded(provider: 'wasm' | 'webgpu') {
   capture('result_downloaded', { provider })
 }
 
-export function captureCrossPromoClicked(project: 'social-sdk') {
+export function captureCrossPromoClicked(project: 'gradients-sh') {
   capture('cross_promo_clicked', { project, placement: 'banner' })
 }
 
-export function captureCrossPromoDismissed(project: 'social-sdk') {
+export function captureCrossPromoDismissed(project: 'gradients-sh') {
   capture('cross_promo_dismissed', { project, placement: 'banner' })
 }
 

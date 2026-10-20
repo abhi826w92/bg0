@@ -7,10 +7,10 @@ import {
   captureCrossPromoDismissed,
 } from '#/lib/analytics'
 
-const SOCIAL_SDK_URL =
-  'https://social-sdk.dev/?utm_source=bg0.dev&utm_medium=banner&utm_campaign=social-sdk-launch'
+// gradients.sh, tagged so its analytics show which site sent the visitor.
+const LAUNCH_POST_URL = 'https://gradients.sh/?utm_source=bg0.dev&utm_medium=banner&utm_campaign=gradients-launch'
 
-export const LAUNCH_BANNER_DISMISSED_KEY = 'bg0-banner-dismissed:social-sdk'
+export const LAUNCH_BANNER_DISMISSED_KEY = 'bg0-banner-dismissed:gradients-sh'
 export const LAUNCH_BANNER_HIDDEN_CLASS = 'launch-banner-dismissed'
 
 // Runs before paint so returning visitors who closed the banner never see it flash.
@@ -22,7 +22,7 @@ export function LaunchBanner() {
 
   function dismiss() {
     setOpen(false)
-    captureCrossPromoDismissed('social-sdk')
+    captureCrossPromoDismissed('gradients-sh')
     try {
       window.localStorage.setItem(LAUNCH_BANNER_DISMISSED_KEY, 'true')
     } catch {
@@ -33,19 +33,21 @@ export function LaunchBanner() {
   return (
     <div className="relative flex h-10 items-center justify-center border-b border-border bg-secondary pr-10 pl-3 text-center text-xs font-medium in-[.launch-banner-dismissed]:hidden sm:text-sm">
       <a
-        href={SOCIAL_SDK_URL}
+        href={LAUNCH_POST_URL}
         target="_blank"
         rel="noopener"
-        onClick={() => captureCrossPromoClicked('social-sdk')}
+        onClick={() => captureCrossPromoClicked('gradients-sh')}
         className="truncate rounded-sm text-muted-foreground outline-none transition-colors duration-(--duration-quick) ease-(--ease-out) hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
       >
         <span className="hidden sm:inline">Hey, Leo here 👋 </span>I just
         launched{' '}
         <span className="font-semibold text-foreground underline underline-offset-4">
-          Social SDK
+          gradients.sh
         </span>
-        <span className="hidden sm:inline">, my new open source project</span>.
-        Come check it out →
+        <span className="hidden sm:inline">
+          , animated gradient backgrounds for React
+        </span>
+        . Come check it out →
       </a>
       <Button
         variant="ghost"
