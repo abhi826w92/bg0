@@ -1,0 +1,12 @@
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+/overview.md
+  Content-Type: text/markdown; charset=utf-8
+
+/feedback.md
+  Content-Type: text/markdown; charset=utf-8
+
+/404.md
+  Content-Type: text/markdown; charset=utf-8
