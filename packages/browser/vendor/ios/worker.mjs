@@ -60,7 +60,8 @@ ort.env.wasm.wasmPaths = {
       if (session) throw new Error('Model already loaded');
       size = 512;
       self.postMessage({stage:'loading'});
-      const response = await fetch(new URL('./int8-full-512.ort',import.meta.url));
+      const modelUrl = 'https://bg0-mobile-preview.vercel.app/birefnet-test/assets/int8-full-512.ort';
+      const response = await fetch(modelUrl);
       if (!response.ok) throw new Error('Model download failed');
       let bytes = await downloadModel(response);
       self.postMessage({stage:'starting'});
