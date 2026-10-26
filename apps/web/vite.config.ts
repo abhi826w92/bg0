@@ -36,7 +36,17 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
-    nitro({ preset: 'cloudflare_module' }),
+    nitro({
+      preset: 'cloudflare_module',
+      routeRules: {
+        '/**': {
+          headers: {
+            'Cross-Origin-Opener-Policy': 'same-origin',
+            'Cross-Origin-Embedder-Policy': 'require-corp',
+          },
+        },
+      },
+    }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
