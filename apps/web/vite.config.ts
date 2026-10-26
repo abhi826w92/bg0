@@ -24,7 +24,9 @@ const posthogSourceMaps =
         sourcemaps: {
           releaseName: 'bg0-web',
           releaseVersion:
-            process.env.VERCEL_GIT_COMMIT_SHA ?? process.env.GITHUB_SHA,
+            process.env.WORKERS_CI_COMMIT_SHA ??
+            process.env.VERCEL_GIT_COMMIT_SHA ??
+            process.env.GITHUB_SHA,
           deleteAfterUpload: true,
         },
       })
@@ -34,7 +36,7 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
-    nitro(),
+    nitro({ preset: 'cloudflare_module' }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
