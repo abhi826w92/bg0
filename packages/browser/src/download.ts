@@ -238,10 +238,14 @@ export function createLoadWatch(
       schedule()
       if (controller.signal.aborted) throw controller.signal.reason
       throw recordFailure(
-        new ModelDownloadError('network', 'A model file could not be fetched', {
-          cause: error,
-          asset,
-        }),
+        new ModelDownloadError(
+          'network',
+          `A model file could not be fetched [${url}]: ${error instanceof Error ? error.message : String(error)}`,
+          {
+            cause: error,
+            asset,
+          },
+        ),
       )
     }
     request.waitingSince = undefined
