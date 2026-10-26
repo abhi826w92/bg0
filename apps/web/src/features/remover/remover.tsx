@@ -60,7 +60,12 @@ type State =
       result: BackgroundRemovalResult
       name: string
     }
-  | { status: 'error'; message: string; code: BackgroundRemovalErrorCode }
+  | {
+      status: 'error'
+      message: string
+      code: BackgroundRemovalErrorCode
+      details?: string
+    }
 
 const CLIPBOARD_TIMEOUT_MS = 1500
 // Without HEIC in accept, the iOS photo picker hands over a JPEG, which avoids
@@ -417,7 +422,15 @@ export function Remover({
           error instanceof BackgroundRemovalError
             ? error.message
             : 'Local processing could not finish. Try again.'
-        commitState({ status: 'error', message, code })
+        const causeObj = (error as any)?.cause
+        const causeText = causeObj
+          ? ` [Cause: ${causeObj.name ? `${causeObj.name}: ` : ''}${causeObj.message || causeObj}]`
+          : ''
+        const errorDetails =
+          error instanceof Error
+            ? `${error.name}: ${error.message}${causeText}`
+            : String(error)
+        commitState({ status: 'error', message, code, details: errorDetails })
         console.error('[BG0 Model Error]:', error)
         if (error && typeof error === 'object' && 'cause' in error) {
           console.error('[BG0 Model Error Cause]:', (error as any).cause)
@@ -984,6 +997,11 @@ export function Remover({
               <p className="mt-1.5 max-w-sm text-[13px] leading-5 text-muted-foreground">
                 {state.message}
               </p>
+              {state.details && (
+                <div className="mt-3 max-w-md rounded-lg border border-destructive/20 bg-destructive/10 p-2.5 text-left font-mono text-[11px] leading-4 text-destructive break-all select-all">
+                  <strong>Debug Error:</strong> {state.details}
+                </div>
+              )}
             </div>
             <div className="flex flex-wrap gap-2">
               {isRetryableError(state.code) && (
