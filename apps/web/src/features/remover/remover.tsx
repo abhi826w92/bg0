@@ -418,6 +418,10 @@ export function Remover({
             ? error.message
             : 'Local processing could not finish. Try again.'
         commitState({ status: 'error', message, code })
+        console.error('[BG0 Model Error]:', error)
+        if (error && typeof error === 'object' && 'cause' in error) {
+          console.error('[BG0 Model Error Cause]:', (error as any).cause)
+        }
         setAnnouncement(message)
         captureRemovalFailed(inputMethod, code)
         if (
